@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Especialidades</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Sistema Médicos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/especialidades">Especialidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/medicos">Médicos</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Buscar">
+                    <button class="btn btn-outline-light" type="submit">Búsqueda</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container mt-5">
+        <h2 class="text-primary">Especialidades</h2>
+
+        <!-- Botón para agregar una nueva especialidad -->
+        <a href="#addEspecialidad" class="btn btn-danger mb-3" data-bs-toggle="modal">Nueva Especialidad</a>
+
+        <!-- Tabla de especialidades -->
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-info">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Especialidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% especialidades.forEach(especialidad => { %>
+                <tr>
+                    <td><%= especialidad.id_Especialidades %></td>
+                    <td><%= especialidad.nombre_especialidad %></td>
+                    <td>
+                        <div class="d-flex">
+                            <!-- Botón para eliminar -->
+                            <form action="/especialidades/borrar/<%= especialidad.id_Especialidades %>" method="POST" class="me-2">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">❌</button>
+                            </form>
+
+                            <!-- Botón para editar -->
+                            <button class="btn btn-outline-primary btn-sm btnEditarEspecialidad"
+                                    data-id="<%= especialidad.id_Especialidades %>" 
+                                    data-nombre="<%= especialidad.nombre_especialidad %>" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalEditarEspecialidad">
+                                ✏️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para agregar nueva especialidad -->
+    <div id="addEspecialidad" class="modal fade" tabindex="-1" aria-labelledby="addEspecialidadLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEspecialidadLabel">Agregar Nueva Especialidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/especialidades/crear" method="POST">
+                        <div class="mb-3">
+                            <label for="nombre_especialidad" class="form-label">Nombre de la Especialidad</label>
+                            <input type="text" name="nombre_especialidad" class="form-control" id="nombre_especialidad" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Agregar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Especialidad -->
+    <div id="modalEditarEspecialidad" class="modal fade" tabindex="-1" aria-labelledby="modalEditarEspecialidadLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="modalEditarEspecialidadLabel">Editar Especialidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/especialidades/editar" method="POST">
+                        <!-- Campo oculto para el ID -->
+                        <input type="hidden" name="id_editar" id="id_editar_especialidad">
+                        
+                        <div class="mb-3">
+                            <label for="nombre_editar_especialidad" class="form-label">Nombre de la Especialidad</label>
+                            <input type="text" name="nombre_editar" class="form-control" id="nombre_editar_especialidad" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS y archivo JavaScript personalizado -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/especialidades.js"></script>  <!-- Archivo JavaScript para cargar el modal de edición -->
+</body>
+</html>

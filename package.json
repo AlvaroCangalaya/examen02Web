@@ -1,0 +1,19 @@
+{
+  "name": "examen02",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "app": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.1",
+    "mysql2": "^3.11.3",
+    "nodemon": "^3.1.7"
+  }
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Médicos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Sistema Médicos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/especialidades">Especialidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/medicos">Médicos</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Buscar">
+                    <button class="btn btn-outline-light" type="submit">Búsqueda</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor de tabla y botones -->
+    <div class="container mt-5">
+        <h2>Médicos</h2>
+        <!-- Botón para agregar un nuevo médico -->
+        <a href="#addMedico" class="btn btn-danger mb-3" data-bs-toggle="modal">Nuevo Médico</a>
+
+        <!-- Tabla de médicos -->
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-info">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Correo</th>
+                    <th>Perfil</th>
+                    <th>Educación</th>
+                    <th>Horarios Disponibles</th>
+                    <th>Especialidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% medicos.forEach(medico => { %>
+                <tr>
+                    <td><%= medico.id_medicos %></td>
+                    <td><%= medico.NOMBRE %></td>
+                    <td><%= medico.APELLIDO_PATERNO %></td>
+                    <td><%= medico.APELLIDO_MATERNO %></td>
+                    <td><%= medico.CORREO_ELECTRONICO %></td>
+                    <td><%= medico.PERFIL %></td>
+                    <td><%= medico.EDUCACION %></td>
+                    <td><%= medico.HORARIOS_DISPONIBLES %></td>
+                    <td><%= medico.Especialidades_id_Especialidades %></td>
+                    <td>
+                        <!-- Botón para eliminar -->
+                        <form action="/medicos/borrar/<%= medico.id_medicos %>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-outline-danger">❌</button>
+                        </form>
+
+                        <!-- Botón para editar -->
+                        <!-- Botón para editar -->
+                        <button class="btn btn-outline-primary btnEditar" 
+                        data-id="<%= medico.id_medicos %>" 
+                        data-nombre="<%= medico.NOMBRE %>" 
+                        data-apellido_paterno="<%= medico.APELLIDO_PATERNO %>" 
+                        data-apellido_materno="<%= medico.APELLIDO_MATERNO %>" 
+                        data-correo="<%= medico.CORREO_ELECTRONICO %>" 
+                        data-perfil="<%= medico.PERFIL %>" 
+                        data-educacion="<%= medico.EDUCACION %>" 
+                        data-horarios="<%= medico.HORARIOS_DISPONIBLES %>" 
+                        data-especialidad="<%= medico.Especialidades_id_Especialidades %>" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalEditar">
+                        ✏️
+                        </button>
+
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para Editar Médico -->
+    <div id="modalEditar" class="modal fade" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarLabel">Editar Médico</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/medicos/editar" method="POST">
+                        <!-- ID oculto -->
+                        <input type="hidden" name="id_editar" id="id_editar">
+
+                        <div class="mb-3">
+                            <label for="nombre_editar" class="form-label">Nombre</label>
+                            <input type="text" name="nombre_editar" class="form-control" id="nombre_editar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido_paterno_editar" class="form-label">Apellido Paterno</label>
+                            <input type="text" name="apellido_paterno_editar" class="form-control" id="apellido_paterno_editar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido_materno_editar" class="form-label">Apellido Materno</label>
+                            <input type="text" name="apellido_materno_editar" class="form-control" id="apellido_materno_editar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="correo_editar" class="form-label">Correo Electrónico</label>
+                            <input type="email" name="correo_editar" class="form-control" id="correo_editar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="perfil_editar" class="form-label">Perfil</label>
+                            <input type="text" name="perfil_editar" class="form-control" id="perfil_editar">
+                        </div>
+                        <div class="mb-3">
+                            <label for="educacion_editar" class="form-label">Educación</label>
+                            <input type="text" name="educacion_editar" class="form-control" id="educacion_editar">
+                        </div>
+                        <div class="mb-3">
+                            <label for="horarios_editar" class="form-label">Horarios Disponibles</label>
+                            <input type="text" name="horarios_editar" class="form-control" id="horarios_editar">
+                        </div>
+                        <div class="mb-3">
+                            <label for="especialidad_id_editar" class="form-label">Especialidad (ID)</label>
+                            <input type="number" name="especialidad_id_editar" class="form-control" id="especialidad_id_editar">
+                        </div>
+                        <button type="submit" class="btn btn-success">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar nuevo médico -->
+    <div id="addMedico" class="modal fade" tabindex="-1" aria-labelledby="addMedicoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMedicoLabel">Agregar nuevo médico</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/medicos/crear" method="POST">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+                            <input type="text" name="apellido_paterno" class="form-control" id="apellido_paterno" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido_materno" class="form-label">Apellido Materno</label>
+                            <input type="text" name="apellido_materno" class="form-control" id="apellido_materno" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="correo_electronico" class="form-label">Correo Electrónico</label>
+                            <input type="email" name="correo_electronico" class="form-control" id="correo_electronico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="perfil" class="form-label">Perfil</label>
+                            <input type="text" name="perfil" class="form-control" id="perfil">
+                        </div>
+                        <div class="mb-3">
+                            <label for="educacion" class="form-label">Educación</label>
+                            <input type="text" name="educacion" class="form-control" id="educacion">
+                        </div>
+                        <div class="mb-3">
+                            <label for="horarios_disponibles" class="form-label">Horarios Disponibles</label>
+                            <input type="text" name="horarios_disponibles" class="form-control" id="horarios_disponibles">
+                        </div>
+                        <div class="mb-3">
+                            <label for="especialidad_id" class="form-label">Especialidad (ID)</label>
+                            <input type="number" name="especialidad_id" class="form-control" id="especialidad_id">
+                        </div>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS y JavaScript para rellenar modal -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/medico.js"></script>
+</body>
+</html>
